@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  font-family: 'Victor Mono', monospace;
+  font-weight: 600;
+  background-color: #EEEFF2;
+  box-sizing: border-box;
+  padding: 2vh 2vw;
+  margin: 0;
+  width: 100%;
+}
+* {
+  box-sizing: border-box;
+}

@@ -1,0 +1,69 @@
+@import "variables";
+
+.main-container {
+  padding: 0.5rem 2rem;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+table {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+
+  img {
+    border-radius: 50%;
+
+  }
+
+  th, td {
+    padding: 0 0.5rem;
+  }
+
+  .rows {
+    transition: background-color 0.2s ease-in-out
+  }
+
+  .rows:hover {
+    cursor: pointer;
+    background: rgb(68, 104, 176, 0.4);
+
+    td {
+      color: $secondary-background;
+
+
+      &:first-child {
+        border-radius: 10px 0 0 10px;
+      }
+
+      &:last-child {
+        border-radius: 0 10px 10px 0;
+
+      }
+    }
+  }
+
+  th {
+    background-color: $table-header-background;
+
+    &:first-child {
+      border-radius: 10px 0 0 10px;
+    }
+
+    &:last-child {
+      border-radius: 0 10px 10px 0;
+    }
+  }
+}
+
+mat-paginator {
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  border-top: none;
+  background: transparent;
+}
+
+
+

@@ -1,24 +1,39 @@
+@import 'variables';
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #333;
-  color: #fff;
+  padding: 2rem;
+  background: $secondary-background;
+  color: $header-font-color;
+  border-radius: 16px;
+  box-shadow: $header-box-shadow;
+  flex-wrap: wrap;
 
   .logo {
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
+    display: flex;
+    align-items: center;
+    gap: 2rem;
   }
 
   .search {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .material-icons {
+      position: absolute;
+      left: 10px;
+      font-size: 1.5rem;
+      color: $font-light-color;
+    }
+
     input {
-      padding: 0.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 4px;
+      padding: 1rem 1rem 1rem 3rem;
+      border: $main-border;
+      border-radius: 12px;
     }
   }
+
 }

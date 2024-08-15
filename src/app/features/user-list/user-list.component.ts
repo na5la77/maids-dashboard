@@ -6,12 +6,7 @@ import { UserService } from '../../core/services/user.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadUsers } from '../../state/users/user.actions';
-import {
-  selectAllUsers,
-  selectUsers,
-  selectUsersMap,
-  selectUserStatus,
-} from '../../state/users/user.selectors';
+import {selectUsers} from '../../state/users/user.selectors';
 import { Observable } from 'rxjs';
 import { AppState } from '../../state/app.state';
 import { AppStatusEnum } from '../../core/models/enums/app-status.enum';
@@ -30,13 +25,13 @@ export class UserListComponent implements OnInit {
   startingPage: number = 0;
   id: number = 40;
   usersObservable$!: Observable<Map<number, User[]>>;
-  userState$!:Observable<UserState>
+  userState$!: Observable<UserState>;
   currentStatus: AppStatusEnum = AppStatusEnum.loading;
 
   constructor(
     private store: Store<AppState>,
     private userService: UserService,
-    private router: Router
+    private router: Router,
   ) {
     this.userState$ = this.store.select(selectUsers);
   }
@@ -49,11 +44,10 @@ export class UserListComponent implements OnInit {
     page++;
     this.store.dispatch(loadUsers({ page }));
     this.userState$.subscribe((response) => {
-      this.dataSource.data = response.users.get(page)??[];
+      this.dataSource.data = response.users.get(page) ?? [];
       this.totalUsers = 10;
     });
   }
-
 
   onPaginateChange(event: PageEvent) {
     this.fetchUsers(event.pageIndex);
@@ -85,6 +79,6 @@ export class UserListComponent implements OnInit {
   }
 
   showLoading() {
-    this.userState$.subscribe(val=>this.currentStatus = val.status)
+    this.userState$.subscribe((val) => (this.currentStatus = val.status));
   }
 }

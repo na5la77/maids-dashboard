@@ -1,14 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {PageEvent} from '@angular/material/paginator';
-import {User} from '../../core/models/user.model';
-import {UserService} from '../../core/services/user.service';
-import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {loadUsers} from '../../state/users/user.actions';
-import {selectAllUsers} from '../../state/users/user.selectors';
-import {Observable} from 'rxjs';
-import {AppState} from '../../state/app.state';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { PageEvent } from '@angular/material/paginator';
+import { User } from '../../core/models/user.model';
+import { UserService } from '../../core/services/user.service';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { loadUsers } from '../../state/users/user.actions';
+import {
+  selectAllUsers,
+  selectUsers,
+  selectUsersMap,
+  selectUserStatus,
+} from '../../state/users/user.selectors';
+import { Observable } from 'rxjs';
+import { AppState } from '../../state/app.state';
+import { AppStatusEnum } from '../../core/models/enums/app-status.enum';
+import { UserState } from '../../state/users/user.reducer';
 
 @Component({
   selector: 'app-user-list',
@@ -22,15 +29,16 @@ export class UserListComponent implements OnInit {
   pageSize: number = 6;
   startingPage: number = 0;
   id: number = 40;
-  usersObservable$!: Observable<User[]>
+  usersObservable$!: Observable<Map<number, User[]>>;
+  userState$!:Observable<UserState>
+  currentStatus: AppStatusEnum = AppStatusEnum.loading;
 
   constructor(
     private store: Store<AppState>,
     private userService: UserService,
     private router: Router
   ) {
-    this.store.dispatch(loadUsers())
-    this.usersObservable$ = this.store.select(selectAllUsers);
+    this.userState$ = this.store.select(selectUsers);
   }
 
   ngOnInit() {
@@ -38,11 +46,14 @@ export class UserListComponent implements OnInit {
   }
 
   fetchUsers(page: number) {
-    this.usersObservable$.subscribe((response: User[]) => {
-      this.dataSource.data = response;
-      this.totalUsers = 12;
-    })
+    page++;
+    this.store.dispatch(loadUsers({ page }));
+    this.userState$.subscribe((response) => {
+      this.dataSource.data = response.users.get(page)??[];
+      this.totalUsers = 10;
+    });
   }
+
 
   onPaginateChange(event: PageEvent) {
     this.fetchUsers(event.pageIndex);
@@ -73,4 +84,7 @@ export class UserListComponent implements OnInit {
     this.fetchUsers(this.startingPage);
   }
 
+  showLoading() {
+    this.userState$.subscribe(val=>this.currentStatus = val.status)
+  }
 }

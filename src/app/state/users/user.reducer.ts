@@ -10,46 +10,32 @@ import {
 import {AppStatusEnum} from '../../core/models/enums/app-status.enum';
 
 export interface UserState {
-  users: User[];
+  users: Map<number, User[]>;
   error: string | null;
   status: AppStatusEnum;
+  totalUsers: number;
+
 }
 
 export const initialState: UserState = {
-  users: [],
+  users: new Map<number, User[]>(), 
   error: null,
   status: AppStatusEnum.pending,
+  totalUsers: 0
 };
 
 export const userReducer = createReducer(
   initialState,
-  on(addUser, (state, {content}) => ({
-    ...state,
-    users: [
-      ...state.users,
-      {
-        id: content.id,
-        first_name: content.first_name,
-        email: content.email,
-        last_name: content.last_name,
-        avatar: content.avatar,
-      },
-    ],
-  })),
-  on(removeUser, (state, {id}) => ({
-    ...state,
-    users: state.users.filter((user) => user.id !== id),
-  })),
 
   on(loadUsers, (state) => ({...state, status: AppStatusEnum.loading})),
 
-  on(loadUsersSuccess, (state, {users}) => ({
+  on(loadUsersSuccess, (state, { users, page }) => ({
     ...state,
-    users: users,
+    users: new Map(state.users).set(page, users),
     error: null,
     status: AppStatusEnum.success,
   })),
-  on(loadUsersFailure, (state, {error}) => ({
+  on(loadUsersFailure, (state, { error }) => ({
     ...state,
     error: error,
     status: AppStatusEnum.error,

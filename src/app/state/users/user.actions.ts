@@ -9,11 +9,16 @@ export const removeUser = createAction(
   '[User Page] Remove User',
   props<{ id: number }>()
 );
-export const loadUsers = createAction('[User Page] Load Users');
+export const loadUsers = createAction(
+  '[User Page] Load Users',
+  props<{ page: number }>()
+);
+
 export const loadUsersSuccess = createAction(
   '[Users API] Users Loaded Successfully',
-  props<{ users: User[] }>()
+  props<{ users: User[], page: number }>()
 );
+
 export const loadUsersFailure = createAction(
   '[User API] Users Failed to Load',
   props<{ error: string }>()

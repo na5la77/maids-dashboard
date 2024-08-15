@@ -1,4 +1,4 @@
-import {UserState} from "./users/user.reducer";
+import {UserState} from './users/user.reducer';
 
 export interface AppState {
   users: UserState;

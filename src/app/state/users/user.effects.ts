@@ -2,9 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UserService } from '../../core/services/user.service';
 import { loadUsers, loadUsersFailure, loadUsersSuccess } from './user.actions';
-import { catchError, from, map, of, switchMap, withLatestFrom } from 'rxjs';
-import { User } from '../../core/models/user.model';
-import { selectUsers, selectUsersMap } from './user.selectors';
+import {catchError, map, of, switchMap, withLatestFrom} from 'rxjs';
+import {selectUsersMap} from './user.selectors';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 
@@ -25,10 +24,10 @@ export class UserEffects {
         } else {
           return this.api.getUsers(page).pipe(
             map((users) => loadUsersSuccess({ users: users.data, page })),
-            catchError((error) => of(loadUsersFailure({ error })))
+            catchError((error) => of(loadUsersFailure({error}))),
           );
         }
-      })
-    )
+      }),
+    ),
   );
 }

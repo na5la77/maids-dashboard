@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
-import {environment} from "../../../environments/environment";
-import {UserDetailsResponse} from "../models/api/user-details-response.model";
-import {UserListResponse} from "../models/api/user-list-response.model";
-import {CachingService} from "./caching.service";
+import {environment} from '../../../environments/environment';
+import {UserDetailsResponse} from '../models/api/user-details-response.model';
+import {UserListResponse} from '../models/api/user-list-response.model';
+import {CachingService} from './caching.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +12,15 @@ import {CachingService} from "./caching.service";
 export class UserService {
   private baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient, private cachingService: CachingService) {}
+  constructor(
+    private http: HttpClient,
+    private cachingService: CachingService,
+  ) {
+  }
 
   getUsers(page: number): Observable<UserListResponse> {
     return this.http.get<UserListResponse>(`${this.baseUrl}?page=${page}`);
   }
-
 
   getUserById(id: string): Observable<UserDetailsResponse | null> {
     const cachedData = this.cachingService.get(id);
@@ -27,16 +30,16 @@ export class UserService {
     }
 
     return this.http.get<UserDetailsResponse>(`${this.baseUrl}/${id}`).pipe(
-      catchError(error => {
+      catchError((error) => {
         console.error('Error fetching user:', error);
         return of(null);
       }),
-      map(response => {
+      map((response) => {
         if (response) {
           this.cachingService.set(id, response);
         }
         return response;
-      })
+      }),
     );
   }
 }

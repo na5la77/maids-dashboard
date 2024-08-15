@@ -1,12 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {User} from '../../core/models/user.model';
-import {
-  addUser,
-  loadUsers,
-  loadUsersFailure,
-  loadUsersSuccess,
-  removeUser,
-} from './user.actions';
+import {loadUsers, loadUsersFailure, loadUsersSuccess} from './user.actions';
 import {AppStatusEnum} from '../../core/models/enums/app-status.enum';
 
 export interface UserState {
@@ -14,14 +8,13 @@ export interface UserState {
   error: string | null;
   status: AppStatusEnum;
   totalUsers: number;
-
 }
 
 export const initialState: UserState = {
-  users: new Map<number, User[]>(), 
+  users: new Map<number, User[]>(),
   error: null,
   status: AppStatusEnum.pending,
-  totalUsers: 0
+  totalUsers: 0,
 };
 
 export const userReducer = createReducer(
@@ -39,5 +32,5 @@ export const userReducer = createReducer(
     ...state,
     error: error,
     status: AppStatusEnum.error,
-  }))
+  })),
 );

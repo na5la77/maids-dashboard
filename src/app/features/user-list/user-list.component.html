@@ -1,5 +1,5 @@
 <div class="main-container">
-  <app-header></app-header>
+  <app-header (searchEvent)="searchEvent($event)"></app-header>
   <div style="padding: 0 3vw;display: flex; flex-direction: column">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -32,7 +32,8 @@
 
 
       <tr mat-header-row class="table-headers" *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row class="rows" (click)="testMethod(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row class="rows" (click)="navigateToUserDetails(row)"
+          *matRowDef="let row; columns: displayedColumns;"></tr>
 
     </table>
     <mat-paginator [length]="totalUsers"

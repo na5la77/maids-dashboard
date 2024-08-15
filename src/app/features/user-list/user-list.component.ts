@@ -1,17 +1,19 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginatorIntl, PageEvent} from '@angular/material/paginator';
-import {User} from "../../shared/models/user.model";
-import {UserService} from "../../core/services/user.service";
-import {UserListResponse} from "../../shared/models/api/user-list-response.model";
-import {Store} from "@ngrx/store";
-import {testAction} from "../../state/users/user.actions";
-import {selectTestContent} from "../../state/users/user.selectors";
-import {AppState} from "../../state/app.state";
+import {PageEvent} from '@angular/material/paginator';
+import {User} from '../../core/models/user.model';
+import {UserService} from '../../core/services/user.service';
+import {Router} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {loadUsers} from '../../state/users/user.actions';
+import {selectAllUsers} from '../../state/users/user.selectors';
+import {Observable} from 'rxjs';
+import {AppState} from '../../state/app.state';
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss']
+  styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['ID', 'avatar', 'name', 'email', 'initials'];
@@ -19,40 +21,56 @@ export class UserListComponent implements OnInit {
   totalUsers: number = 0;
   pageSize: number = 6;
   startingPage: number = 0;
+  id: number = 40;
+  usersObservable$!: Observable<User[]>
 
-
-  constructor(private userService: UserService, private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private userService: UserService,
+    private router: Router
+  ) {
+    this.store.dispatch(loadUsers())
+    this.usersObservable$ = this.store.select(selectAllUsers);
   }
-
 
   ngOnInit() {
     this.fetchUsers(this.startingPage);
-    this.store.dispatch(testAction({content: "Date.now().toString()"}))
   }
 
   fetchUsers(page: number) {
-    this.userService.getUsers(page + 1).subscribe((response: UserListResponse) => {
-      this.dataSource.data = response.data;
-      this.totalUsers = response.total;
-    });
+    this.usersObservable$.subscribe((response: User[]) => {
+      this.dataSource.data = response;
+      this.totalUsers = 12;
+    })
   }
 
   onPaginateChange(event: PageEvent) {
     this.fetchUsers(event.pageIndex);
   }
 
-  testMethod(row: any) {
-    this.store.select(selectTestContent).subscribe(content => {
-      console.log(content);  // Should log the testText value from state
-    });
-    console.log(row)
+  navigateToUserDetails(row: any) {
+    this.router.navigate(['/user', row.id]);
   }
-}
 
-@Injectable({
-  providedIn: 'root',
-})
-export class CustomMatPaginatorIntl extends MatPaginatorIntl {
-  // override nextPageLabel = '';
-  // override previousPageLabel = '';
+  searchEvent($event: string | null) {
+    if ($event) {
+      this.userService.getUserById($event).subscribe((res) => {
+        if (res && res.data) {
+          this.dataSource.data = [res.data];
+        } else {
+          this.resetTableData();
+        }
+      });
+    } else {
+      this.resetTableData();
+    }
+  }
+
+  private resetTableData() {
+    this.totalUsers = 0;
+    this.startingPage = 0;
+    this.dataSource.data = [];
+    this.fetchUsers(this.startingPage);
+  }
+
 }

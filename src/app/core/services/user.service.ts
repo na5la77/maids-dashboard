@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
 import {environment} from "../../../environments/environment";
-import {UserDetailsResponse} from "../../shared/models/api/user-details-response.model";
-import {UserListResponse} from "../../shared/models/api/user-list-response.model";
+import {UserDetailsResponse} from "../models/api/user-details-response.model";
+import {UserListResponse} from "../models/api/user-list-response.model";
 import {CachingService} from "./caching.service";
 
 @Injectable({

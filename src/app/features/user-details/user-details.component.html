@@ -1,18 +1,16 @@
-<div class="main-details-container">
-
-
+<div class="main-container">
   <div class="back-container">
     <span class="material-icons">arrow_back</span>
     <a (click)="navigateBack()" class="back-button">Back to list</a>
   </div>
 
-
   <div class="main-card-container">
     <div class="card">
       <div class="details-header">
-        <img [src]="user?.avatar" alt="{{user?.first_name}}" class="avatar" width="100%"/>
+        <img [src]="user?.avatar" alt="{{user?.first_name}}" class="avatar"/>
+
       </div>
-      <div class="details-container">
+      <div class="text-details-container">
         <div class="name-container">
           <span class="label">Name: </span>
           <div class="details-name">{{ user?.first_name }} {{ user?.last_name }}</div>

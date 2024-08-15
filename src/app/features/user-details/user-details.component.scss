@@ -1,8 +1,9 @@
 @import "variables";
 
-.main-details-container {
+.main-container {
   display: flex;
   flex-direction: column;
+  gap:2rem;
 }
 
 .back-container {
@@ -20,9 +21,7 @@
 
 }
 
-img {
-  border-radius: 16px;
-}
+
 
 .main-card-container {
   display: flex;
@@ -37,39 +36,64 @@ img {
     box-shadow: $box-shadow;
     width: fit-content;
     border-radius: 16px;
-    background: $secondary-background;
+    position: relative;
 
-  }
-
-  .details-container {
-    display: flex;
-    flex-direction: column;
-    padding: 0.5rem 1rem 1rem 0.5rem;
-    gap: 1rem;
-
-    .name-container {
+    .details-header {
+      background-color: #6468bc;
+      background-image: linear-gradient(30deg, #141415 12%, transparent 12.5%, transparent 87%, #141415 87.5%, #141415),
+      linear-gradient(150deg, #141415 12%, transparent 12.5%, transparent 87%, #141415 87.5%, #141415),
+      linear-gradient(30deg, #141415 12%, transparent 12.5%, transparent 87%, #141415 87.5%, #141415),
+      linear-gradient(150deg, #141415 12%, transparent 12.5%, transparent 87%, #141415 87.5%, #141415),
+      linear-gradient(60deg, #14141577 25%, transparent 25.5%, transparent 75%, #14141577 75%, #14141577),
+      linear-gradient(60deg, #14141577 25%, transparent 25.5%, transparent 75%, #14141577 75%, #14141577);
+      background-size: 46px 81px;
+      background-position: 0 0, 0 0, 23px 40px, 23px 40px, 0 0, 23px 40px;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 100%;
       display: flex;
-      flex-direction: row;
-      width: fit-content;
-      gap: 0.5rem;
+      justify-content: flex-start;
+      margin-bottom: -1rem;
+      z-index: 2;
+      position: relative;
 
-      .details-name {
-        width: fit-content;
-      }
-
-      .details-initials {
-        align-self: flex-end;
-        font-size: 0.6rem;
-        font-weight: 200
+      img {
+        border-radius: 50%;
+        border: 0.3rem solid rebeccapurple;
       }
     }
 
-    .email-container {
+    .text-details-container {
+      background: rebeccapurple;
+      color: #fff;
+      padding: 2rem 10rem;
       display: flex;
-      flex-direction: row;
-      gap: 0.5rem;
+      flex-direction: column;
+      gap: 1rem;
+      border-radius: 12px;
+      z-index: 1;
+      position: relative;
+
+      .name-container {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+      }
+
+      .email-container {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        a{
+          color: #fff;
+
+        }
+        a:hover{
+          color: $font-light-color;
+        }
+
+      }
     }
   }
-
 }
 

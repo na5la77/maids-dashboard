@@ -1,10 +1,6 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { UserService } from "../../../core/services/user.service";
-import { UserDetailsResponse } from "../../models/api/user-details-response.model";
+import {Component, EventEmitter, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -14,24 +10,15 @@ import { UserDetailsResponse } from "../../models/api/user-details-response.mode
 export class HeaderComponent {
   searchControl = new FormControl('');
 
-  constructor(private router: Router, private userService: UserService) {
+  @Output()
+  searchEvent: EventEmitter<string | null> = new EventEmitter();
+
+  ngOnInit() {
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(id => {
-        if (id) {
-          return this.userService.getUserById(id);
-        } else {
-          return of(null);
-        }
-      })
-    ).subscribe((response: UserDetailsResponse | null) => {
-      if (response && response.data) {
-        this.router.navigate(['/user', response.data.id]);
-      }
-      else{
-        this.router.navigate(['/users'])
-      }
+      distinctUntilChanged()
+    ).subscribe((searchInput: string | null) => {
+      this.searchEvent.emit(searchInput);
     });
   }
 }

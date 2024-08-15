@@ -1,13 +1,25 @@
+@import 'variables';
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 html, body {
   height: 100%;
   font-family: 'Victor Mono', monospace;
-  font-weight: 600;
-  background-color: #EEEFF2;
+  font-weight: 400;
+  background-color: $primary-background;
   box-sizing: border-box;
-  padding: 2vh 2vw;
-  margin: 0;
+  padding: 1rem 2rem;
   width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 * {
   box-sizing: border-box;
 }
+
+.title {
+  font-family: 'Arvo', serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 2rem;
+  color: $header-font-color;
+}
+

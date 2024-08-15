@@ -1,3 +1,75 @@
-*{
-  background-color: green;
+@import "variables";
+
+.main-details-container {
+  display: flex;
+  flex-direction: column;
 }
+
+.back-container {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  color: $font-dark-color;
+  gap: 1rem;
+  cursor: pointer;
+  align-items: center;
+
+  .material-icons {
+    font-size: 1rem;
+  }
+
+}
+
+img {
+  border-radius: 16px;
+}
+
+.main-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2rem;
+  width: 100%;
+
+
+  .card {
+    box-shadow: $box-shadow;
+    width: fit-content;
+    border-radius: 16px;
+    background: $secondary-background;
+
+  }
+
+  .details-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem 1rem 0.5rem;
+    gap: 1rem;
+
+    .name-container {
+      display: flex;
+      flex-direction: row;
+      width: fit-content;
+      gap: 0.5rem;
+
+      .details-name {
+        width: fit-content;
+      }
+
+      .details-initials {
+        align-self: flex-end;
+        font-size: 0.6rem;
+        font-weight: 200
+      }
+    }
+
+    .email-container {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+    }
+  }
+
+}
+
